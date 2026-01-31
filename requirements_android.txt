@@ -1,0 +1,24 @@
+# Dependencias para Inforeader Cédula - Android
+
+# Framework UI
+kivy==2.3.0
+
+# Lectura de códigos de barras PDF417
+pyzbar
+
+# Procesamiento de imágenes
+opencv-python
+Pillow
+
+# HTTP requests para sincronización
+requests
+
+# Soporte Android (solo para compilación)
+# python-for-android
+# buildozer
+
+# Base de datos (viene con Python)
+# sqlite3 (incluido)
+
+# Nota: Al compilar con buildozer, estas dependencias se empaquetarán
+# automáticamente en el APK

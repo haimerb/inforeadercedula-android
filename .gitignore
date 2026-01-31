@@ -1,0 +1,36 @@
+# Build directories
+.buildozer/
+build/
+bin/
+dist/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+
+# PyInstaller specs (no buildozer.spec)
+cedulas_app.spec
+
+# Database
+cedulas.db
+
+# Exports
+cedulas_export_*.csv
+
+# Node
+node_modules
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,58 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:  # Permite ejecutar manualmente desde GitHub
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+    
+    - name: Configurar Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Instalar dependencias del sistema
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y git zip unzip openjdk-17-jdk wget
+        sudo apt-get install -y build-essential libssl-dev libffi-dev python3-dev
+        sudo apt-get install -y autoconf libtool pkg-config zlib1g-dev
+        sudo apt-get install -y libncurses5-dev libncursesw5-dev libtinfo5
+        sudo apt-get install -y cmake libltdl-dev
+
+    - name: Instalar Buildozer y Cython
+      run: |
+        pip install --upgrade pip
+        pip install buildozer cython==0.29.33
+    
+    - name: Compilar APK con Buildozer
+      run: |
+        cd $GITHUB_WORKSPACE
+        buildozer android debug
+      env:
+        JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
+    
+    - name: Subir APK como artefacto
+      uses: actions/upload-artifact@v4
+      if: success()
+      with:
+        name: android-apk-debug
+        path: bin/*.apk
+        retention-days: 30
+    
+    - name: Información del APK generado
+      if: success()
+      run: |
+        echo "✅ APK generado exitosamente"
+        ls -lh bin/*.apk
+        echo ""
+        echo "📱 Descarga el APK desde la pestaña 'Actions' de este repositorio"
