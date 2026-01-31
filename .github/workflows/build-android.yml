@@ -34,10 +34,15 @@ jobs:
         pip install --upgrade pip
         pip install buildozer cython==0.29.33
     
+    - name: Aceptar licencias de Android SDK
+      run: |
+        mkdir -p ~/.buildozer/android/platform
+        echo "y" | buildozer android debug 2>&1 | head -n 50 || true
+    
     - name: Compilar APK con Buildozer
       run: |
         cd $GITHUB_WORKSPACE
-        buildozer android debug
+        yes | buildozer android debug
       env:
         JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
     
